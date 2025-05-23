@@ -1,0 +1,57 @@
+@import 'modern-normalize/modern-normalize.css';
+
+:root {
+  --bg-dark: #1d1d1d;
+  --accent-red: #c13b37;
+  --accent-yellow: #cfa22b;
+  --accent-teal: #16a085;
+  --accent-green: #2ecc71;
+  --foreground: #ededed;
+  --background: var(--bg-dark);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--bg-dark);
+    --foreground: #ededed;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: var(--bg-dark);
+    --foreground: #171717;
+  }
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background: #1d1d1d !important;
+  color: var(--foreground);
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
