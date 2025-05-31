@@ -14,8 +14,10 @@ const Hero: React.FC = () => {
     if (media.matches) {
       // If reduced motion, jump to end state
       if (svgRef.current && (window as any).anime) {
+        // basic final state so users still see the graphic
         (window as any).anime.set(svgRef.current.querySelectorAll('.ring'), {
           rotate: 360,
+          translateZ: 80,
         });
       }
       return;
@@ -23,28 +25,26 @@ const Hero: React.FC = () => {
     if (svgRef.current && (window as any).anime) {
       const anime = (window as any).anime;
       // Build master timeline
-      const tl = anime.timeline({
-        autoplay: false,
-        easing: 'easeInOutSine',
-      });
+      const tl = anime.timeline({ autoplay: false, easing: 'easeInOutSine' });
       tl.add({
         targets: '#ring-1',
-        translateZ: [0, 80],
-        rotate: [0, 45],
-        duration: 900,
+        translateZ: [0, 100],
+        rotate: [0, 180],
+        duration: 1000,
       })
         .add({
           targets: '#ring-2',
-          translateZ: [0, 40],
-          rotate: [0, -30],
-          duration: 900,
-          offset: '-=600',
+          translateZ: [0, -100],
+          rotate: [0, -180],
+          duration: 1000,
+          offset: 0,
         })
         .add({
           targets: '#ring-3',
-          scale: [1, 1.2],
-          duration: 900,
-          offset: '-=600',
+          scale: [1, 0.6],
+          rotate: [0, 360],
+          duration: 1000,
+          offset: 0,
         });
       timelineRef.current = tl;
 
@@ -55,7 +55,7 @@ const Hero: React.FC = () => {
         const progress = clamp(
           0,
           1,
-          1 - rect.top / (window.innerHeight + rect.height)
+          -rect.top / (rect.height - window.innerHeight)
         );
         tl.seek(progress * tl.duration);
         if (scrubRef.current) {
@@ -121,21 +121,17 @@ const Hero: React.FC = () => {
             <circle id="ring-3" className="ring part" cx="110" cy="110" r="40" stroke="var(--accent-teal)" strokeWidth="3" fill="none" />
           </svg>
         </div>
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', alignItems: 'center', marginBottom: '1.5rem' }}>
-          <button style={{ background: 'var(--accent-red)', color: 'white', border: 'none', borderRadius: '6px', padding: '0.75rem 1.5rem', fontSize: '1rem', fontWeight: 600, cursor: 'pointer' }} onClick={() => navigator.clipboard.writeText('npm i animejs')}>npm i animejs</button>
-          <span style={{ background: 'var(--bg-dark)', color: 'var(--accent-teal)', borderRadius: '6px', padding: '0.5rem 1rem', fontSize: '0.95rem', fontWeight: 500 }}>~30 KB</span>
-        </div>
         <div
           ref={scrubRef}
-          className="scrubBar"
           style={{
             position: 'fixed',
-            bottom: '2rem',
-            right: '2rem',
+            bottom: '1rem',
+            right: '1rem',
             height: 4,
-            width: 200,
-            background: '#444',
+            width: 160,
+            background: 'var(--accent-teal)',
             transformOrigin: 'left center',
+            transform: 'scaleX(0)',
             zIndex: 1000,
           }}
         />
