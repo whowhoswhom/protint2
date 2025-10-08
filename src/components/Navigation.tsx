@@ -1,34 +1,51 @@
 'use client';
 
-import React from 'react';
+import { cn } from '../lib/cn';
 
-export default function Navigation() {
+interface NavigationProps {
+  gender: 'male' | 'female';
+  onToggleGender: () => void;
+}
+
+const NAV_ITEMS = ['Programs', 'Progress', 'Settings'] as const;
+
+export default function Navigation({ gender, onToggleGender }: NavigationProps) {
   return (
-    <nav className="nav-container">
-      <div className="nav-content">
-        <a href="#" className="logo">
-          Pro<span style={{ color: 'var(--accent-primary)' }}>Tint</span>
-        </a>
-        
-        <div className="nav-links">
-          <a href="#services" className="nav-link">Services</a>
-          <a href="#about" className="nav-link">About</a>
-          <a href="#contact" className="nav-link">Contact</a>
-          <a href="#book" className="btn-primary">
-            Book Now
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
+    <nav className="sticky top-0 z-50 backdrop-blur-2xl bg-black/40 border-b border-white/10">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
+        <div className="flex items-center gap-3 text-white">
+          <span className="text-sm uppercase tracking-[0.4em] text-slate-400">fourword</span>
+          <div className="h-1 w-1 rounded-full bg-emerald-400" />
+          <p className="text-base font-semibold text-white">Vision → Reality</p>
         </div>
-
-        {/* Mobile menu button */}
-        <button className="md:hidden text-white hover:text-accent-primary transition-colors">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M3 12h18M3 6h18M3 18h18"/>
-          </svg>
+        <div className="hidden md:flex items-center gap-8 text-sm text-slate-200">
+          {NAV_ITEMS.map((item) => (
+            <button
+              key={item}
+              type="button"
+              className="group relative font-medium uppercase tracking-[0.3em] text-xs text-slate-300 transition hover:text-white"
+            >
+              {item}
+              <span className="absolute -bottom-2 left-0 h-px w-full bg-gradient-to-r from-transparent via-white/60 to-transparent opacity-0 transition group-hover:opacity-100" />
+            </button>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={onToggleGender}
+          className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1 text-xs uppercase tracking-[0.35em] text-slate-100 transition hover:border-white/40"
+        >
+          {gender === 'male' ? 'Male' : 'Female'}
+          <span
+            className={cn(
+              'h-2 w-2 rounded-full',
+              gender === 'male'
+                ? 'bg-sky-400 shadow-[0_0_0_4px_rgba(56,189,248,0.15)]'
+                : 'bg-pink-400 shadow-[0_0_0_4px_rgba(244,114,182,0.15)]'
+            )}
+          />
         </button>
       </div>
     </nav>
   );
-} 
+}
